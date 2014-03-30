@@ -1,0 +1,40 @@
+<html lang="en"> 
+  <head>
+    <meta charset="utf-8">
+    <title>Chat Room</title> 
+    <script src="/socket.io/socket.io.js"></script> 
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script>
+			//TODO: implement the client socket functions
+      var socket = io.connect('/'); 
+      socket.on('connect', function() {
+        //socket.emit('addme', prompt('Who are you?')); 
+      });
+      socket.on('chat',function(username, data) { 
+        //$('#output').append('<p>' + username + ': ' + data + '</p>'); 
+      });
+			$(document).ready(function(){
+				/*
+        $('#sendtext').click(function(){
+          var text = $('#data').val(); 
+          socket.emit('sendchat', text);
+          $('#data').val('');
+          $('#data').focus();
+				});
+				*/
+			});
+    </script>
+  <meta charset="utf-8">
+  <title>Chat Room</title> 
+  </head>
+  <body>
+    <div style="width:500px">
+    <div id="output" style="height:400px">
+    </div>
+    <div id="send">
+    <input type="text" id="data" size="80px" />
+    <input type="button" id="sendtext" value="Send" />
+    </div>
+    </div>
+  </body>
+</html>
