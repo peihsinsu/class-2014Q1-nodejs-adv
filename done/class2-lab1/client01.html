@@ -8,7 +8,7 @@
   socket.on('news', function (data) {
       console.log('[on news]' + JSON.stringify(data));
       //將data呈現在下方id=t的h1 tag中
-      $('#t').html(data.time);
+      $('#t').html('My Loading: ' + (parseLong(data.usage)*100) + ' %');
       //觸發server另一個event，並且傳入data
       socket.emit('my other event', { my: 'data' });
   });

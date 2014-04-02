@@ -1,7 +1,10 @@
 var fs = require('fs')
-  , http = require('http')
-  // 發佈socket.io server，並且聽取8080 port
-  , io = require('socket.io').listen(8080);
+	, app = require('http').createServer(handler)
+  , io = require('socket.io').listen(app)
+  , os = require('os');
+
+// 發佈socket.io server，並且聽取8080 port
+app.listen(8080);
 
 /**
  * 實作socket io，並在connection開啟後，於callback function中實作要處理的事件
@@ -14,7 +17,7 @@ io.sockets.on('connection', function (socket) {
    */
   setInterval(function(){
 		//TODO: implement the cpu, memory fetch method and emit to frontend
-    socket.emit('news', { time: new Date() });
+    socket.emit('news', getState());
   }, 3000);
   
   /**
@@ -28,10 +31,22 @@ io.sockets.on('connection', function (socket) {
 /**
  * 建立server實體，目的是方便鏈結html檔案，讓前端可以連線直接測試
  */
-http.createServer(function (req, res) {
+function handler(req, res) {
+	console.log('[%s] %s', new Date(), req.url);
   res.writeHead(200, {'Content-Type': 'text/html'});
   //任何連線都直接讀取client01.html做回覆
-  res.end(fs.readFileSync(__dirname + '/client01.html', 'utf8'));
-}).listen(8088, '127.0.0.1');
+	var out = fs.readFileSync(__dirname + '/client01.html', 'utf8');
+  res.end(out);
+}
 
-console.log('Server running at http://127.0.0.1:1337/');
+function getState() {
+	var mem = {
+		free: os.freemem(),
+		total: os.totalmem(),
+		usage: os.freemem()/os.totalmem()
+	}
+	return mem;
+}
+
+
+console.log('Server running at http://127.0.0.1:8080/');

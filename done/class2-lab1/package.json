@@ -1,0 +1,10 @@
+{
+  "name": "class2-lab1",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "~0.9.16"
+  }
+}
